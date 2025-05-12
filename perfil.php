@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $confirmar = $_POST['confirmar_contrasena'] ?? '';
 
     if ($actual && $nueva && $confirmar) {
-      $stmt = $conn->prepare("SELECT contrasena FROM usuarios WHERE id = ?");
+      $stmt = $conn->prepare("SELECT password FROM usuarios WHERE id = ?");
       $stmt->execute([$usuario_id]);
       $hash = $stmt->fetchColumn();
 
