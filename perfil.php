@@ -38,14 +38,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $confirmar = $_POST['confirmar_contrasena'] ?? '';
 
     if ($actual && $nueva && $confirmar) {
-      $stmt = $conn->prepare("SELECT contrasena FROM usuarios WHERE id = ?");
+      $stmt = $conn->prepare("SELECT password FROM usuarios WHERE id = ?");
       $stmt->execute([$usuario_id]);
       $hash = $stmt->fetchColumn();
 
       if (password_verify($actual, $hash)) {
         if ($nueva === $confirmar) {
           $nueva_hash = password_hash($nueva, PASSWORD_DEFAULT);
-          $upd = $conn->prepare("UPDATE usuarios SET contrasena = ? WHERE id = ?");
+          $upd = $conn->prepare("UPDATE usuarios SET password = ? WHERE id = ?");
           $upd->execute([$nueva_hash, $usuario_id]);
           $mensaje = '✅ Contraseña actualizada correctamente.';
         } else {
